@@ -1,80 +1,58 @@
 <!doctype html>
 <html>
 <head>
-    <title>Node Authentication</title>
+    <title><%= user.profile.name %> profile</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <style>
-        body        { padding-top:80px; }
-    </style>
 </head>
 <body>
-<%= user %>
-<img src="<%= user.profile.pictureUrl %>" alt="">
-
-<!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
-
-                <% if (user.local.email) { %>
-                    <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
-                    </p>
-
-                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/local" class="btn btn-default">Connect Local</a>
-                <% } %>
-
-            </div>
+  <% include ../components/navbar.ejs %>
+  <div class="container panel panel-default">
+    <div class="panel-body">
+        <div class="col-md-3">
+          <img src="<%= user.profile.pictureUrl %>" alt="profile picture" style="width:100%">
         </div>
-
-        <!-- FACEBOOK INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
-
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
+        <div class="col-md-9">
+          <h2 class="h3">
+            <%= user.profile.name %>
+            <small>
+              <% if (typeof loggedUser !== 'undefined' && user.id === loggedUser.id) {%>
+                <a href="/users/profile/edit">(Edit my profile)</a>
+              <%}%>
+            </small>
+        </h2>
+          <table class="table">
+            <tr>
+              <td>City</td>
+              <td><%= user.profile.city %></td>
+            </tr>
+            <tr>
+              <td>State</td>
+              <td><%= user.profile.state %></td>
+            </tr>
+            <tr>
+              <td>Connected accounts</td>
+              <td>
                 <% if (user.facebook.token) { %>
-                    <p>
-                        <strong>id</strong>: <%= user.facebook.id %><br>
-                        <strong>token</strong>: <%= user.facebook.token %><br>
-                        <strong>email</strong>: <%= user.facebook.email %><br>
-                    </p>
-
-                    <a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
+                  <a href='<%= 'http://facebook.com/'+ user.facebook.id %>'>
+                  <i class="fa fa-facebook-square" aria-hidden="true" style="font-size: 200%;"></i>
+                  </a>
                 <% } %>
-
-            </div>
+                <span> </span>
+                <% if (user.twitter.token) { %>
+                  <a href='<%= 'http://facebook.com/'+ user.facebook.id %>'>
+                  <i class="fa fa-twitter-square" aria-hidden="true" style="font-size: 200%;"></i>
+                  </a>
+                <% } %>
+              </td>
+            </tr>
+          </table>
         </div>
     </div>
+  </div>
 
-    <div class="row">
 
-        <!-- TWITTER INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-info"><span class="fa fa-twitter"></span> Twitter</h3>
-
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.twitter.token) { %>
-                    <p>
-                        <strong>id</strong>: <%= user.twitter.id %><br>
-                        <strong>token</strong>: <%= user.twitter.token %><br>
-                        <strong>username</strong>: <%= user.twitter.username %>
-                    </p>
-                    <a href="/unlink/twitter" class="btn btn-info">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/twitter" class="btn btn-info">Connect Twitter</a>
-                <% } %>
-
-            </div>
-        </div>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>

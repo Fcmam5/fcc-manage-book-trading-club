@@ -6,6 +6,8 @@ var helper = require('./helperFunctions');
 /*
 * Get USER profile
 */
-router.get('/profile', helper.isLoggedIn,UserController.showProfile);
+router.get('/profile/edit', helper.isLoggedIn,UserController.editProfile);
+router.post('/profile/edit', helper.isLoggedIn,UserController.applyProfileEdition);
+router.get('/profile/:id', helper.isLoggedIn,UserController.showProfile);
 
 module.exports = router;

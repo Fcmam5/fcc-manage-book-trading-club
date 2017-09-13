@@ -23,14 +23,4 @@ router.get('/:id', UserController.show);
  */
 router.post('/', UserController.create);
 
-/*
- * PUT
- */
-router.put('/:id', UserController.update);
-
-/*
- * DELETE
- */
-router.delete('/:id', UserController.remove);
-
 module.exports = router;

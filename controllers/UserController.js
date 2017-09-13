@@ -7,7 +7,21 @@ var UserModel = require('../models/UserModel.js');
  */
 module.exports = {
     showProfile: function (req, res) {
-        return res.render('user/profile', {title: "welcome", user : req.user});
+      var id = req.params.id;
+      UserModel.findOne({_id: id}, function (err, User) {
+        if (err) {
+          return res.status(500).json({
+            message: 'Error when getting User.',
+            error: err
+          });
+        }
+        if (!User) {
+          return res.status(404).json({
+            message: 'No such User'
+          });
+        }
+        return res.render('user/profile', {title: "welcome", user : User, loggedUser: req.user});
+      });
     },
     /**
      * UserController.list()
@@ -62,54 +76,6 @@ module.exports = {
             return res.status(201).json(User);
         });
     },
-
-    /**
-     * UserController.update()
-     */
-    update: function (req, res) {
-        var id = req.params.id;
-        UserModel.findOne({_id: id}, function (err, User) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting User',
-                    error: err
-                });
-            }
-            if (!User) {
-                return res.status(404).json({
-                    message: 'No such User'
-                });
-            }
-
-
-            User.save(function (err, User) {
-                if (err) {
-                    return res.status(500).json({
-                        message: 'Error when updating User.',
-                        error: err
-                    });
-                }
-
-                return res.json(User);
-            });
-        });
-    },
-
-    /**
-     * UserController.remove()
-     */
-    remove: function (req, res) {
-        var id = req.params.id;
-        UserModel.findByIdAndRemove(id, function (err, User) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when deleting the User.',
-                    error: err
-                });
-            }
-            return res.status(204).json();
-        });
-    },
     /**
     * Check if meail is already used
     */
@@ -126,5 +92,45 @@ module.exports = {
         return res.status(200).json(user);
 
       });
-    }
+    },
+    /**
+      * Edit profile, change name and picture and city/state
+      */
+    editProfile: function(req, res){
+      res.render('user/edit', {
+                                title: "Edit "+ req.user.profile.name+"'s profile",
+                                user: req.user
+                              });
+    },
+    applyProfileEdition: function(req, res){
+      var id = req.user._id;
+      var name = req.body.name || req.user.profile.name;
+      var city = req.body.city || req.user.profile.city;
+      var state = req.body.state || req.user.profile.state;
+      var pictureUrl = req.body.pictureUrl || req.user.profile.pictureUrl;
+
+      UserModel.findOne({_id: id}, function (err, User) {
+        if (err || !User) {
+          return res.status(500).json({
+              message: 'Error when creating User',
+              error: err
+          });
+        }
+
+        User.profile.name = name;
+        User.profile.pictureUrl = pictureUrl;
+        User.profile.city = city;
+        User.profile.state = state;
+
+        User.save(function(err, User){
+          if (err || !User) {
+            return res.status(500).json({
+                message: 'Error when creating User',
+                error: err
+            });
+          }
+          res.redirect('/users/profile/' + User.id);
+        });
+      });
+    },
 };
