@@ -24,9 +24,15 @@
             <% for(var j = 0; j < books[i].requesters.length; j++) {%>
               <tr>
               <td><%= books[i].title %></td>
-              <td><%= books[i].requesters[j] %></td>
               <td>
-              <button type="button" name="button" class="btn btn-success">Accpet</button>
+                <a href='/users/profile/<%= books[i].requesters[j]%>'>
+                    <%= books[i].requesters[j] %>
+                  </a>
+              </td>
+              <td>
+              <a role="button"
+                 class="btn btn-success <% if (books[i].isFree()) {%> ' disabled '<%}%>"
+                 href='<%= "/books/give/" + books[i].id + "/to/" + books[i].requesters[j] %>'>Accpet</a>
               </td>
               </tr>
             <%}%>

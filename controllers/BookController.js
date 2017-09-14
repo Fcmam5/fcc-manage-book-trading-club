@@ -29,10 +29,10 @@ module.exports = {
                   error: err
               });
           }
-          console.log(Books);
           return res.render('books/my-books', {user: req.user, books: Books});
       });
     },
+
     addNewBook: function(req, res) {
       var Book = new BookModel();
       Book.title = req.body.title;
@@ -47,9 +47,68 @@ module.exports = {
           });
         }
         return res.redirect('/books/');
-      })
-
+      });
     },
+
+    requestBook: function (req, res) {
+      var id = req.params.id;
+      var user = req.user;
+      BookModel.findOne({_id: id}, function(err, Book){
+        if (err) {
+          return res.status(500).json({
+              message: 'Error when creating Book.',
+              error: err
+          });
+        }
+        Book.requesters.push(user);
+        Book.save(function(err, book){
+          if (err) {
+            return res.status(500).json({
+                message: 'Error when saving Book.',
+                error: err
+            });
+          }
+          return res.redirect('/books/');
+        });
+      });
+    },
+
+    acceptRequest: function (req, res) {
+      var id = req.params.bookId;
+      var requester = req.params.requesterID;
+
+      BookModel.findOne({_id: id, owner: req.user}, function(err, Book){
+        if (err) {
+          return res.status(500).json({
+              message: 'Error when creating Book.',
+              error: err
+          });
+        }
+        Book.giveToUser(requester);
+        Book.save(function(err, book){
+          if (err) {
+            return res.status(500).json({
+                message: 'Error when saving Book.',
+                error: err
+            });
+          }
+          return res.redirect('/books/');
+        });
+      });
+    },
+
+    userTrades: function (req, res) {
+      BookModel.find({requesters: req.user._id},function (err, Books) {
+          if (err) {
+              return res.status(500).json({
+                  message: 'Error when getting Book.',
+                  error: err
+              });
+          }
+          return res.render('books/trades', {user: req.user, pending: Books});
+      });
+    },
+
     show: function (req, res) {
         BookModel.find(function (err, Book) {
             if (err) {

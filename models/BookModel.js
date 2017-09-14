@@ -6,9 +6,10 @@ BookSchema.methods.isFree = function(){
 };
 
 BookSchema.methods.giveToUser = function(user){
+  console.log(typeof this.requesters);
   var index = this.requesters.indexOf(user);
   if (index > -1) {
-    this.owner = this.requesters[index].splice(index,1);
+    this.beneficiary = this.requesters.splice(index,1);
     return true;
   }
   return false;

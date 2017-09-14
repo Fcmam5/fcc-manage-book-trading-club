@@ -13,38 +13,23 @@
 
 
     <div class="panel-body">
-        <% if (typeof books !== 'undefined' && books.length > 0) {%>
+        <% if (typeof pending !== 'undefined' && pending.length > 0) {%>
+          <h2>Pending requests</h2>
           <div class="row">
-            <% for(var i = 0; i < books.length; i++) {%>
-
+            <% for(var i = 0; i < pending.length; i++) {%>
               <div class="col-md-3">
                 <div class="panel panel-primary">
                   <div class="panel-body text-center">
-                    <img src="<%= books[i].imgUrl %>" alt="<%= books[i].title %>">
+                    <img src="<%= pending[i].imgUrl %>" alt="<%= pending[i].title %>">
                   </div>
                   <div class="panel-footer text-center">
                     <p>
-                      <%= books[i].title %>
+                      <%= pending[i].title %>
                     </p>
-                    <% if (typeof user !== 'undefined' && books[i].owner.equals(user._id)) {%>
-                      CHANGE TEXT HERE PLEASE
-                      <p>
-                        <a href=<%= "/books/request/" + books[i].id %>>
-                          <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
-                        </a>
-                      </p>
-                    <%}%>
-
                   </div>
                 </div>
               </div>
-
             <% } %>
-          </div>
-        <% } else { %>
-          <div class="text-center">
-            <h2 class="h3">Sorry</h2>
-            <p>There is no books to show here :(</p>
           </div>
         <% } %>
     </div>
