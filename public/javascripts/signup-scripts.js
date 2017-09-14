@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  var serverCallForExam;
+  var serverCall;
   var emailRe = /\S+@\S+\.\S+/;
   var csrfToken = $('input[name="_csrf"]').val();
   $('#used-mail-txt').hide();
@@ -7,8 +7,8 @@ $(document).ready(function(){
   $('input[name="email"]').on('keyup', function(){
     var email = $(this).val();
     if (email.length > 3 && emailRe.test(email)) {
-      clearTimeout(serverCallForExam);
-      serverCallForExam = setTimeout(function(){
+      clearTimeout(serverCall);
+      serverCall = setTimeout(function(){
         $.ajax({
           url: '/api/users/get-user-by-mail',
           type: 'POST',
