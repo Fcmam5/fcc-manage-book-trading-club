@@ -26,8 +26,7 @@
                     <p>
                       <%= books[i].title %>
                     </p>
-                    <% if (typeof user !== 'undefined' && books[i].owner.equals(user._id)) {%>
-                      CHANGE TEXT HERE PLEASE
+                    <% if (typeof user !== 'undefined' && !books[i].owner.equals(user._id)) {%>
                       <p>
                         <a href=<%= "/books/request/" + books[i].id %>>
                           <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>

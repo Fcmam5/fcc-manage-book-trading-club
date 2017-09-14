@@ -13,7 +13,7 @@ router.get('/login', function (req, res) {
 });
 
 router.post('/login', passport.authenticate('local-login', {
-  successRedirect : '/users/profile', // TODO: redirect to the secure profile section
+  successRedirect : '/books', // TODO: redirect to the secure profile section
   failureRedirect : '/login', // TODO: redirect back to the signin page if there is an error
         failureFlash : true // allow flash messages
 }));
@@ -31,7 +31,7 @@ router.get('/signup', function (req, res) {
 });
 
 router.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/users/profile', // TODO: redirect to the secure profile section
+    successRedirect : '/books', // TODO: redirect to the secure profile section
     failureRedirect : '/signup', // TODO: redirect back to the signup page if there is an error
     failureFlash : true // allow flash messages
 }));
@@ -43,7 +43,7 @@ router.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email'
 
 router.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-        successRedirect : '/users/profile',
+        successRedirect : '/books',
         failureRedirect : '/'
 }));
 
@@ -63,7 +63,7 @@ router.get('/auth/twitter', passport.authenticate('twitter'));
 
 router.get('/auth/twitter/callback',
     passport.authenticate('twitter', {
-        successRedirect : '/users/profile',
+        successRedirect : '/books',
         failureRedirect : '/'
 }));
 
