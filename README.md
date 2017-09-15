@@ -1,6 +1,8 @@
 # FreeCodecamp's Manage a Book Trading Club project
 
-This is `Manage a Book Trading Club` project, for [Manage a Book Trading Club FreeCodecamp challenge](https://www.freecodecamp.org/challenges/manage-a-book-trading-club).
+This is `Manage a Book Trading Club` project, for [Manage a Book Trading Club FreeCodecamp challenge](https://www.freecodecamp.org/challenges/manage-a-book-trading-club). I need to work more and more on the Front-end, I only tried to satisfy the [User stories](#user-stories) . The application is hosted on Heroku.
+
+Url: [https://fcc-book-trading-club-fcmam5.herokuapp.com](https://fcc-book-trading-club-fcmam5.herokuapp.com/)
 
 ## User stories
 * **User Story:** I can view all books posted by every user.
